@@ -1,3 +1,25 @@
+Metadata-Version: 2.1
+Name: tezeta
+Version: 0.1.1
+Summary: A package for memory in chatbots and LLM requests that uses relevance to maximize context window utilization.
+Home-page: https://github.com/rediatbrook/tezeta
+Author: Rediat Shamsu
+Author-email: rediatbrook@gmail.com
+Keywords: LLM,chatbot,memory,relevance,context window
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # Tezeta: A Package for Maximizing Context Window Utilization in Chatbots (Under Development)
 
 > :warning: **Tezeta is currently under active development and is not yet functional. The features listed below are planned for future releases.**
@@ -17,9 +39,7 @@ Tezeta is a Python package designed to optimize memory in chatbots and Language 
 
 ## Installation
 
-```bash
-pip install tezeta
-```
+Installation instructions will be provided upon the first functional release of Tezeta.
 
 ## Basic Usage
 

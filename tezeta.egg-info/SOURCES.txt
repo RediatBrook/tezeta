@@ -1,0 +1,12 @@
+LICENSE
+README.md
+setup.py
+tezeta/__init__.py
+tezeta/chats.py
+tezeta/text.py
+tezeta/tokens.py
+tezeta.egg-info/PKG-INFO
+tezeta.egg-info/SOURCES.txt
+tezeta.egg-info/dependency_links.txt
+tezeta.egg-info/requires.txt
+tezeta.egg-info/top_level.txt

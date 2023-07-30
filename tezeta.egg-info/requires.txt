@@ -1,0 +1,4 @@
+pinecone-client
+chromadb
+tiktoken
+openai
