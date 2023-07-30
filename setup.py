@@ -7,7 +7,7 @@ setup(
     description='A package for memory in chatbots and LLM requests that uses relevance to maximize context window utilization.',
     author='Rediat Shamsu',
     author_email='rediatbrook@gmail.com',
-    url='https://github.com/yourname/tezeta',
+    url='https://github.com/rediatbrook/tezeta',
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
@@ -24,7 +24,8 @@ setup(
     install_requires=[
        'pinecone-client',
        'chromadb',
-       'tiktoken'
+       'tiktoken',
+       'openai',
     ],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
 )
