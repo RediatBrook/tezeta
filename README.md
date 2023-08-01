@@ -1,6 +1,6 @@
-# Tezeta: A Package for Maximizing Context Window Utilization in Chatbots (Under Development)
+# Tezeta: A Package for Maximizing Context Window Utilization in Chatbots
 
-> :warning: **Tezeta is currently under active development and is not yet functional. The features listed below are planned for future releases.**
+> :warning: **Tezeta is still currently under active development.**
 
 Tezeta is a Python package designed to optimize memory in chatbots and Language Model (LLM) requests using relevance-based vector embeddings. This tool aims to maximize the utilization of context windows, thereby improving chatbot performance by allowing the storage and retrieval of more relevant conversation history.
 
@@ -69,7 +69,7 @@ print (llm_chats)
 
 ## Documentation
 
-Documentation will be available in the future.
+Further Documentation will be available in the future.
 
 ## License
 
