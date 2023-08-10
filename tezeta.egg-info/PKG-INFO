@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: tezeta
-Version: 0.1.1
+Version: 0.0.1
 Summary: A package for memory in chatbots and LLM requests that uses relevance to maximize context window utilization.
 Home-page: https://github.com/rediatbrook/tezeta
 Author: Rediat Shamsu
@@ -29,17 +29,20 @@ Tezeta is a Python package designed to optimize memory in chatbots and Language 
 ### Supported Features
 
 - Using vector embeddings to rank chats based on relevance with OpenAI embeddings and Pinecone
+- Using ChromaDB as vector store with the default all-MiniLM-L6-v2 
+- Using ChromaDB as vector store
+- Support for using Open Source Embedding Models locally (currently through all-MiniLM-L6-v2 with chromaDB)
 
 ## Planned Features
 
 - Chunk up and rank sections of long text in a single chat or LLM request
-- Using ChromaDB as vector store
-- Support for using Open Source Embedding Models locally
 - Support for using the Cohere API for Embeddings
 
 ## Installation
 
-Installation instructions will be provided upon the first functional release of Tezeta.
+```bash
+pip install tezeta
+```
 
 ## Basic Usage
 

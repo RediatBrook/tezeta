@@ -5,7 +5,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='tezeta',
-    version='0.1.1',
+    version='0.0.1',
     packages=find_packages(),
     description='A package for memory in chatbots and LLM requests that uses relevance to maximize context window utilization.',
     long_description=long_description,

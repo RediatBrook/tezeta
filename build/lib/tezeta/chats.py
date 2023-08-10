@@ -2,12 +2,14 @@ from . import tokens
 import pinecone
 import openai
 import os
+import chromadb
+import logging
 
-
-vector_db_type = "pinecone"
+vector_db_type = "chromadb"
 pinecone_api_key = os.environ.get("PINECONE_API_KEY")
 openai_api_key = os.environ.get("OPENAI_API_KEY")
-supported_vector_dbs = {"pinecone"}
+chromadb_path = "./vector_db"
+supported_vector_dbs = {"pinecone", "chromadb"}
 pinecone_index_name = "tezeta-chats"
 pinecone_environment = os.environ.get("PINECONE_ENVIRONMENT")
 pinecone_dimensions = 1536
@@ -53,9 +55,8 @@ def get_embedding(message):
     embedding = response['data'][0]['embedding']
     return embedding
     
-    
 
-def rank_and_return_messages(messages, new_chat):
+def rank_and_return_pinecone_messages(messages, new_chat):
     
     # Initialize Pinecone
     pinecone.init(api_key=pinecone_api_key, environment=pinecone_environment)
@@ -89,9 +90,10 @@ def rank_and_return_messages(messages, new_chat):
         if(res.metadata==None):
             continue
         original_message = res.metadata['content']
-        tokens_in_result = tokens.count_text_tokens(original_message['content'])
+        tokens_in_result = tokens.count_text_tokens(original_message)
         if total_tokens + tokens_in_result + new_chat_length <= tokens.max_tokens:
-            sorted_results.append(original_message)
+            role = res.metadata['role']
+            sorted_results.append({'role': role, 'content': original_message})
             total_tokens += tokens_in_result
         else:
             break
@@ -102,13 +104,54 @@ def rank_and_return_messages(messages, new_chat):
 
     return sorted_results
 
+def rank_and_return_chromadb_messages(messages, new_chat):
+    if not os.path.exists(chromadb_path):
+        os.mkdir(chromadb_path)
+        logging.info(f"Created chromadb directory at {chromadb_path}")
+    else:
+        logging.info(f"Chromadb directory already exists at {chromadb_path}")
+    client = chromadb.PersistentClient(path=chromadb_path)
+    collection = client.get_or_create_collection('tezeta-chats')
+    new_chat_length = tokens.count_text_tokens(new_chat['content'])
+    sorted_results = []
+    total_tokens = 0
+    
+    for i, msg in enumerate(messages):
+        collection.upsert(
+            documents=[msg['content']],
+            ids=[str(i)],
+            metadatas={'role': msg['role']}
+        )
+    
+    results = collection.query(
+        query_texts=[new_chat['content']],
+        n_results=len(messages)
+    )
+    
+    for i,res in enumerate(results['documents'][0]):
+        original_message = res
+        tokens_in_result = tokens.count_text_tokens(original_message)
+        if total_tokens + tokens_in_result + new_chat_length <= tokens.max_tokens:
+            role = results['metadatas'][i][0]['role']
+            sorted_results.append({'role': role, 'content': original_message})
+            total_tokens += tokens_in_result
+        else:
+            break
+        
+    sorted_results = sorted(sorted_results, key=lambda x: messages.index(x))
+    sorted_results.append(new_chat)
+    
+    return sorted_results
+    
 
 def fit_messages(messages):
     if validate_messages(messages):
         if(tokens.count_chat_tokens(messages) < tokens.max_tokens):
             return messages
-        else:
-            previous_messages = messages[:-1]
-            new_message = messages[-1]
-            return rank_and_return_messages(previous_messages, new_message)
+    previous_messages = messages[:-1]
+    new_message = messages[-1]
+    if vector_db_type == "pinecone":
+        return rank_and_return_pinecone_messages(previous_messages, new_message)
+    elif vector_db_type == "chromadb":
+        return rank_and_return_chromadb_messages(previous_messages, new_message)
     return messages
